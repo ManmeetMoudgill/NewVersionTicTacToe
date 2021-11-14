@@ -1,6 +1,7 @@
 var gameOver = new Audio("gameover.mp3");
 var playerTurn = new Audio("ting.mp3");
 var turn = "X";
+var isDraw = false;
 var isGameOver = false;
 const changeTurn = () => {
     return turn === "X" ? "O" : "X";
@@ -10,6 +11,8 @@ const checkWin = () => {
 
     //need to the all boxTexts
     var boxTexts = document.getElementsByClassName('boxtext');
+
+
 
     var wins = [
         [0, 1, 2, 5, 5, 0], //last there elements are used to animate the line whern someone won
@@ -28,8 +31,15 @@ const checkWin = () => {
 
         if ((boxTexts[singleArr[0]].innerText === boxTexts[singleArr[1]].innerText) && (boxTexts[singleArr[2]].innerText === boxTexts[singleArr[1]].innerText) && (boxTexts[singleArr[0]].innerText !== "")) {
             isGameOver = true
-            console.log(singleArr[3] + "vw");
+            Swal.fire({
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                icon: 'success',
+                title: `${boxTexts[singleArr[0]].innerText} Won`
+            })
             document.getElementsByClassName("info")[0].innerText = boxTexts[singleArr[0]].innerText + " " + "Won";
+
             document.querySelector('.imgbox').getElementsByTagName('img')[0].style.width = "200px";
             document.querySelector(".line").style.transform = `translate(${singleArr[3]}vw, ${singleArr[4]}vw) rotate(${singleArr[5]}deg)`
             document.querySelector(".line").style.width = "20vw";
@@ -39,8 +49,28 @@ const checkWin = () => {
 
 
         }
+
     })
 
+    if (boxTexts[0].innerText != "" && boxTexts[1].innerText != "" && boxTexts[2].innerText != "" && boxTexts[3].innerText != "" && boxTexts[4].innerText != "" &&
+        boxTexts[5].innerText != "" && boxTexts[6].innerText != "" && boxTexts[7].innerText != "" && boxTexts[8].innerText != "") {
+        if (!isGameOver) {
+            isDraw = true;
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'top-end',
+                    showConfirmButton: true,
+                    timer: 2000,
+                    icon: 'warning',
+                    title: "Draw Match"
+                })
+
+                resetFunc()
+
+            }, 1000)
+
+        }
+    }
 }
 
 
