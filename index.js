@@ -10,9 +10,9 @@ const checkWin = () => {
 
     //need to the all boxTexts
     var boxTexts = document.getElementsByClassName('boxtext');
-    console.log(boxTexts);
+
     var wins = [
-        [0, 1, 2, 5, 5, 0],
+        [0, 1, 2, 5, 5, 0], //last there elements are used to animate the line whern someone won
         [3, 4, 5, 5, 15, 0],
         [6, 7, 8, 5, 25, 0],
         [0, 3, 6, -5, 15, 90],
@@ -28,15 +28,21 @@ const checkWin = () => {
 
         if ((boxTexts[singleArr[0]].innerText === boxTexts[singleArr[1]].innerText) && (boxTexts[singleArr[2]].innerText === boxTexts[singleArr[1]].innerText) && (boxTexts[singleArr[0]].innerText !== "")) {
             isGameOver = true
+            console.log(singleArr[3] + "vw");
             document.getElementsByClassName("info")[0].innerText = boxTexts[singleArr[0]].innerText + " " + "Won";
             document.querySelector('.imgbox').getElementsByTagName('img')[0].style.width = "200px";
-            document.querySelector(".line").style.transform = `translate(${e[3]}vw, ${e[4]}vw) rotate(${e[5]}deg)`
+            document.querySelector(".line").style.transform = `translate(${singleArr[3]}vw, ${singleArr[4]}vw) rotate(${singleArr[5]}deg)`
             document.querySelector(".line").style.width = "20vw";
+            setTimeout(() => {
+                resetFunc()
+            }, 3000)
+
 
         }
     })
 
 }
+
 
 
 
@@ -66,6 +72,11 @@ Array.from(boxes).forEach((element) => {
 //reset functionalty here
 var reset = document.getElementById("reset");
 reset.addEventListener('click', () => {
+    resetFunc();
+
+})
+
+const resetFunc = () => {
     var boxTexts = document.getElementsByClassName('boxtext');
     Array.from(boxTexts).forEach((e) => {
         e.innerText = "";
@@ -75,4 +86,4 @@ reset.addEventListener('click', () => {
     document.querySelector(".line").style.width = "0vw";
     document.getElementsByClassName("info")[0].innerText = "Turn for " + turn;
     document.querySelector('.imgbox').getElementsByTagName('img')[0].style.width = "0px"
-})
+}
